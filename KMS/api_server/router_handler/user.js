@@ -94,7 +94,7 @@ exports.login = (req, res) => {
         const compareResult = bcrypt.compareSync(userinfo.password, results[0].password);
         if (!compareResult) return res.cc('登陆失败');
         // 生成token  使用展开运算符，覆盖空白内容
-        var user = {...userinfo, password: '', user_pic: '' };
+        const user = {...userinfo, password: '', user_pic: '' };
         // 对用户的信息进行加密，生成token字符串(需要加密的信息、加密秘钥、token有效期)
         const tokenStr = jwt.sign(user, config.jwtSecretKey, { expiresIn: config.expiresIn });
         // 将数据响应给客户端
