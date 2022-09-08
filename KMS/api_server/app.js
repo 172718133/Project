@@ -13,6 +13,8 @@ app.use(cors());
 
 // 配置解析表单数据的中间件
 app.use(express.urlencoded({ extended: false }));
+// 解析parse application/json格式
+app.use(express.json());
 // 声明处理失败提示的全局中间件 ！！！一定要在路由之前
 app.use((req, res, next) => {
     res.cc = (err, status = 1) => {
