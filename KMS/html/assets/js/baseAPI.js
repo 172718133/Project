@@ -11,7 +11,6 @@ $.ajaxPrefilter(function(option) {
     };
     // 同意配置 complete 回调函数
     option.complete = (res) => {
-        console.log(res);
         // 在complete回调函数中，可以使用res.responseJSON拿到服务器响应的数据
         if (res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败') {
             // -未登录-  清空localStorage

@@ -41,7 +41,7 @@ exports.updatePassword = (req, res) => {
         const compareResult = bcrypt.compareSync(req.body.oldPwd, results[0].password);
         if (!compareResult) return res.cc('旧密码错误！');
         // 修改用户密码
-        const sql_setPwd = 'updata ev_users set password=? where uid=?';
+        const sql_setPwd = 'update ev_users set password=? where uid=?';
         const newPwd = bcrypt.hashSync(req.body.newPwd, 10);
         db.query(sql_setPwd, [newPwd, req.user.uid], (err, results) => {
             if (err) return res.cc(err);
@@ -57,6 +57,6 @@ exports.updateAvatar = (req, res) => {
     db.query(sql_avatar, [req.body.avatar, req.user.uid], (err, results) => {
         if (err) return res.cc(err);
         if (results.affectedRows != 1) return res.cc('更换头像失败！');
-        res.cc('更换头像成功');
+        res.cc('更换头像成功', 0);
     });
 }

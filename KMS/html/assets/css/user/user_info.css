@@ -1,0 +1,23 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f2f3f5;
+    padding: 15px !important;
+}
+
+.userinfo {
+    background-color: #fff;
+}
+
+.layui-card-header {
+    font-size: 16px !important;
+}
+
+.layui-input-block input {
+    width: 500px;
+    border: 1px solid #ccc;
+}
