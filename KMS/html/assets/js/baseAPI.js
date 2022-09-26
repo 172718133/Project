@@ -9,7 +9,7 @@ $.ajaxPrefilter(function(option) {
             Authorization: localStorage.getItem('token') || ''
         }
     };
-    // 同意配置 complete 回调函数
+    // 统一配置 complete 回调函数
     option.complete = (res) => {
         // 在complete回调函数中，可以使用res.responseJSON拿到服务器响应的数据
         if (res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败') {
