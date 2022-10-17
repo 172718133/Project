@@ -13,6 +13,7 @@
 </head>
 
 <body>
+    <!-- 文章数据 -->
     <div class="container-fluid">
         <div class="row spannel_list">
             <div class="col-sm-3 col-xs-6">
@@ -41,7 +42,11 @@
             </div>
         </div>
     </div>
-
+    <!-- 文章访客量 -->
+    <div class="container-fluid">
+        <div class="column_pannel" id="column_show"></div>
+    </div>
+    <!-- 文章统计 -->
     <div class="container-fluid">
         <div class="row curve-pie">
             <div class="col-lg-8 col-md-8">
@@ -53,9 +58,6 @@
         </div>
     </div>
 
-    <div class="container-fluid">
-        <div class="column_pannel" id="column_show"></div>
-    </div>
 
     <script>
         var oChart = echarts.init(document.getElementById('curve_show'));
@@ -178,20 +180,20 @@
                     mark: {
                         show: true
                     },
-                    dataView: {
-                        show: true,
-                        readOnly: false
-                    },
+                    // dataView: {
+                    //     show: true,
+                    //     readOnly: false
+                    // },
                     magicType: {
                         show: true,
                         type: ['line', 'bar']
                     },
-                    restore: {
-                        show: true
-                    },
-                    saveAsImage: {
-                        show: true
-                    }
+                    // restore: {
+                    //     show: true
+                    // },
+                    // saveAsImage: {
+                    //     show: true
+                    // }
                 }
             },
             calculable: true,
@@ -274,10 +276,10 @@
                     mark: {
                         show: true
                     },
-                    dataView: {
-                        show: true,
-                        readOnly: false
-                    },
+                    // dataView: {
+                    //     show: true,
+                    //     readOnly: false
+                    // },
                     magicType: {
                         show: true,
                         type: ['pie', 'funnel'],
@@ -290,12 +292,12 @@
                             }
                         }
                     },
-                    restore: {
-                        show: true
-                    },
-                    saveAsImage: {
-                        show: true
-                    }
+                    // restore: {
+                    //     show: true
+                    // },
+                    // saveAsImage: {
+                    //     show: true
+                    // }
                 }
             },
             calculable: true,
@@ -343,20 +345,20 @@
                     mark: {
                         show: true
                     },
-                    dataView: {
-                        show: true,
-                        readOnly: false
-                    },
+                    // dataView: {
+                    //     show: true,
+                    //     readOnly: false
+                    // },
                     magicType: {
                         show: true,
                         type: ['line', 'bar']
                     },
-                    restore: {
-                        show: true
-                    },
-                    saveAsImage: {
-                        show: true
-                    }
+                    // restore: {
+                    //     show: true
+                    // },
+                    // saveAsImage: {
+                    //     show: true
+                    // }
                 }
             },
             calculable: true,
