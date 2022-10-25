@@ -21,14 +21,22 @@ export default {
     },
     methods: {
         // 触发+1事件时，使用eventBus，将+1之后的数量传给父组件（app）
+        // add() {
+        //     // 若使用this.num += 1，会报错不能修改props里面的属性的值
+        //     const obj = { id: this.id, value: this.num + 1 };
+        //     bus.$emit("share", obj);
+        // },
+        // less() {
+        //     const obj = { id: this.id, value: this.num - 1 };
+        //     bus.$emit("share", obj);
+        // },
         add() {
-            // 若使用this.num += 1，会报错不能修改props里面的属性的值
             const obj = { id: this.id, value: this.num + 1 };
-            bus.$emit("share", obj);
+            this.$emit("count_add", obj);
         },
         less() {
-            const obj = { id: this.id, value: this.num - 1 };
-            bus.$emit("share", obj);
+            const obj = { id: this.id, value: this.num + 1 };
+            this.$emit("count_add", obj);
         },
     },
 };

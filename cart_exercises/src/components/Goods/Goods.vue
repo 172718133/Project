@@ -12,8 +12,10 @@
                 <div class="goods_info">
                     <div class="goods_title">{{ name }}</div>
                     <div class="num">
+                        <!-- 商品价格 -->
                         <div class="goods_price">￥{{ price }}</div>
-                        <Counter :num="count" :id="id"></Counter>
+                        <!-- 商品数量 -->
+                        <slot></slot>
                     </div>
                 </div>
             </a>
@@ -45,10 +47,10 @@ export default {
             default: false,
             type: Boolean,
         },
-        count: {
-            default: 1,
-            type: Number,
-        },
+        // count: {
+        //     default: 1,
+        //     type: Number,
+        // },
     },
     methods: {
         // 勾选框触发change事件

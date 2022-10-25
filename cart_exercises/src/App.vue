@@ -9,9 +9,14 @@
             :pic="item.goods_img"
             :price="item.goods_price"
             :state="item.goods_state"
-            :count="item.goods_count"
             @stateChange="getNewState"
-        ></Goods>
+        >
+            <Counter
+                :num="item.goods_count"
+                :id="item.id"
+                @count_add="getNewCount(item, $event)"
+            ></Counter>
+        </Goods>
         <Footer
             :isFull="fullCheck"
             :total_price="totalPrice"
@@ -87,16 +92,31 @@ export default {
         getIsAll(val) {
             this.goods.forEach((item) => (item.goods_state = val));
         },
+        // 自定义事件，接受最新的商品数量
+        getNewCount(item, e) {
+            // console.log(item, e);
+            item.goods_count = e.value;
+            // this.goods.some((item) => {
+            //     // 查找传过来的id对应的item数据项
+            //     if (item.id === val.id) {
+            //         // 找到对应的数据项，赋值最新的勾选状态
+            //         item.goods_count = val.value;
+            //         // 停止循环
+            //         return true;
+            //     }
+            // });
+        },
     },
     created() {
         this.initGoodsList();
-        bus.$on("share", (val) => {
-            this.goods.some((item) => {
-                if (item.id === val.id) {
-                    item.goods_count = val.value;
-                }
-            });
-        });
+        // eventBus.js接受孙组件传过来的数据
+        // bus.$on("share", (val) => {
+        //     this.goods.some((item) => {
+        //         if (item.id === val.id) {
+        //             item.goods_count = val.value;
+        //         }
+        //     });
+        // });
     },
 };
 </script>
