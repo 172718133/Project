@@ -36,7 +36,7 @@ const router = new VueRouter({
 }
 );
 
-// 路由守卫
+// 路由守卫hhhhh
 router.beforeEach(function (to, from, next) {
   const pathArr = ['/home']
   if (pathArr.indexOf(to.path) !== -1) {
