@@ -1,19 +1,17 @@
 <template>
-  <div class="app_container">
-    <el-button>123</el-button>
-  </div>
+  <!-- <div class="app_container"> -->
+    <router-view></router-view>
+  <!-- </div> -->
 </template>
 
 <script>
-import { registerAPI } from '@/api/index.js'
+// import { registerAPI } from '@/api/index.js'
 export default {
-  async created () {
-    const res = await registerAPI('aaa', 111111, 111111)
-    console.log(res)
-  }
 }
 </script>
 
 <style lang="lesss" scoped>
-
+/* .app_container{
+  height: 100%;
+} */
 </style>
