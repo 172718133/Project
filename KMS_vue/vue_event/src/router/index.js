@@ -4,17 +4,35 @@ import store from '@/store'
 
 Vue.use(VueRouter)
 
-const originalPush = VueRouter.prototype.push
-VueRouter.prototype.push = function push (location, onResolve, onReject) {
-  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
-  return originalPush.call(this, location).catch(err => err)
-}
+// const originalPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push (location, onResolve, onReject) {
+//   if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+//   return originalPush.call(this, location).catch(err => err)
+// }
 
 const routes = [
   {
     path: '/',
-    redirect: '/login'
-    // component: () => import('@/views/main/index.vue')
+    redirect: '/home',
+    component: () => import('@/views/main/index.vue'),
+    children: [
+      {
+        path: 'home',
+        component: () => import('@/views/home')
+      },
+      {
+        path: 'user-info',
+        component: () => import('@/views/user/userInfo.vue')
+      },
+      {
+        path: 'user-avatar',
+        component: () => import('@/views/user/userAvatar.vue')
+      },
+      {
+        path: 'user-pwd',
+        component: () => import('@/views/user/userPWD.vue')
+      }
+    ]
   },
   {
     path: '/login',

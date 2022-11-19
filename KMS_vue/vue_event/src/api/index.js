@@ -47,8 +47,23 @@ export const getUserInfoAPI = () => {
 }
 
 // 获取侧边栏数据的API
-export const getAsideList = () => {
+export const getAsideListAPI = () => {
   return request({
     url: '/my/menus'
+  })
+}
+
+// 更新用户信息的API
+export const updateUserInfoAPI = ({ id, username, nickname, email, user_pic }) => {
+  return request({
+    url: '/my/userinfo',
+    method: 'PUT',
+    data: {
+      id,
+      username,
+      nickname,
+      email,
+      user_pic
+    }
   })
 }

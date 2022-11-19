@@ -29,7 +29,7 @@
           <span>欢迎 {{ nickname || username }}</span>
         </div>
         <!-- 侧边栏菜单数据 -->
-        <el-menu default-active="/home" class="el-menu-vertical-demo" background-color="#23262E" text-color="#fff" active-text-color="#409EFF" unique-opened router>
+        <el-menu :default-active="$route.path" class="el-menu-vertical-demo" background-color="#23262E" text-color="#fff" active-text-color="#409EFF" unique-opened router>
           <template v-for="item in menus">
             <!-- 不包含子菜单的“一级菜单” -->
             <el-menu-item :index="item.indexPath" :key="item.indexPath" v-if="!item.children"><i :class="item.icon"></i>{{ item.title }}</el-menu-item>
@@ -47,7 +47,8 @@
       <el-container>
         <!-- 页面主体区域 -->
         <el-main>
-          Main.vue后台主页
+          <!-- 二级路由挂载点 -->
+          <router-view></router-view>
         </el-main>
         <!-- 底部 footer 区域 -->
         <el-footer>© www.itheima.com - 黑马程序员</el-footer>
@@ -59,7 +60,7 @@
 <script>
 // import { getUserinfoActions } from '@/api/index.js'
 import { mapGetters } from 'vuex'
-import { getAsideList } from '@/api/index.js'
+import { getAsideListAPI } from '@/api/index.js'
 export default {
   name: 'my-Main',
   data () {
@@ -95,7 +96,7 @@ export default {
     },
     // 获取侧边栏数据
     async getAsideList () {
-      const { data: res } = await getAsideList()
+      const { data: res } = await getAsideListAPI()
       // console.log(res)
       this.menus = res.data
     },

@@ -69,7 +69,7 @@ export default {
           // 登录成功
           this.$message.success(res.message)
           this.updateToken(res.token)
-          this.$router.push('/home')
+          this.$router.push('/')
           // this.$store.dispatch('getUserinfoActions')
         } else {
           return false
