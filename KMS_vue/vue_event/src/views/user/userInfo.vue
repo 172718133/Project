@@ -16,7 +16,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submit">提交修改</el-button>
-          <el-button>重置</el-button>
+          <el-button @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -56,11 +56,18 @@ export default {
           const { data: res } = await updateUserInfoAPI(this.userForm)
           if (res.code !== 0) return this.$message.error(res.message)
           this.$message.success(res.message)
+          this.$refs.userform.resetFields()
           this.$store.dispatch('getUserinfoActions')
         } else {
           return false
         }
       })
+    },
+    // 重置用户信息->点击事件
+    reset () {
+      // this.userForm.nickname = ''
+      // this.userForm.email = ''
+      this.$refs.userform.resetFields()
     }
   }
 }
