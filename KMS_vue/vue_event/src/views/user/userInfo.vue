@@ -93,6 +93,10 @@ export default {
 .clearfix:after {
   clear: both;
 }
+.clearfix span{
+  font-size: 16px;
+  font-weight: bold;
+}
 
 .box-card {
   height: 100%;
