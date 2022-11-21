@@ -9,10 +9,10 @@
           <el-input disabled :value="userForm.username"></el-input>
         </el-form-item>
         <el-form-item label="用户昵称" prop="nickname">
-          <el-input autocomplete="off" v-model="userForm.nickname"></el-input>
+          <el-input autocomplete="off" v-model.trim="userForm.nickname"></el-input>
         </el-form-item>
         <el-form-item label="用户邮箱" prop="email">
-          <el-input autocomplete="off"  v-model="userForm.email"></el-input>
+          <el-input autocomplete="off"  v-model.trim="userForm.email"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submit">提交修改</el-button>
@@ -74,9 +74,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.userinfo_container {
-  height: 100%;
-}
 .text {
   font-size: 14px;
 }
@@ -96,10 +93,6 @@ export default {
 .clearfix span{
   font-size: 16px;
   font-weight: bold;
-}
-
-.box-card {
-  height: 100%;
 }
 .el-form-item {
   width: 480px;

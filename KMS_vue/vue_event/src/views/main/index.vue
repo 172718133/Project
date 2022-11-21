@@ -51,7 +51,7 @@
           <router-view></router-view>
         </el-main>
         <!-- 底部 footer 区域 -->
-        <el-footer>© www.itheima.com - 黑马程序员</el-footer>
+        <el-footer>© 123456789@qq.com - 迪迦</el-footer>
       </el-container>
     </el-container>
   </el-container>
@@ -134,9 +134,10 @@ export default {
   .el-main {
     overflow-y: scroll;
     height: 0;
-    background-color: #f2f2f2;
+    background-color: #f1f4f5;
   }
   .el-footer {
+    height: 40px !important;
     background-color: #eee;
     font-size: 12px;
     display: flex;
