@@ -8,10 +8,9 @@
       <el-menu class="el-menu-top" mode="horizontal" background-color="#23262E" text-color="#fff" active-text-color="#409EFF">
         <el-submenu index="1">
           <template slot="title">
-            <!-- 头像 -->
             <img :src="user_pic" alt="" class="avatar" v-if="user_pic"/>
             <img src="../../assets/images/avatar.jpg" alt="" class="avatar" v-else />
-            <span>个人中心</span>
+            <span>你好 {{ nickname || username }}</span>
           </template>
           <el-menu-item index="1-1"><i class="el-icon-s-operation"></i>基本资料</el-menu-item>
           <el-menu-item index="1-2"><i class="el-icon-camera"></i>更换头像</el-menu-item>
@@ -23,11 +22,6 @@
     <el-container>
       <!-- 侧边栏区域 -->
       <el-aside width="200px">
-        <div class="user-box">
-          <img :src="user_pic" alt="" v-if="user_pic" />
-          <img src="../../assets/images/logo.png" alt="" v-else />
-          <span>欢迎 {{ nickname || username }}</span>
-        </div>
         <!-- 侧边栏菜单数据 -->
         <el-menu :default-active="$route.path" class="el-menu-vertical-demo" background-color="#23262E" text-color="#fff" active-text-color="#409EFF" unique-opened router>
           <template v-for="item in menus">
