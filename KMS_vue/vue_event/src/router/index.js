@@ -31,6 +31,14 @@ const routes = [
       {
         path: 'user-pwd',
         component: () => import('@/views/user/userPWD.vue')
+      },
+      {
+        path: 'art-cate',
+        component: () => import('@/views/article/ArticleCate.vue')
+      },
+      {
+        path: 'art-list',
+        component: () => import('@/views/article/ArticleList.vue')
       }
     ]
   },
@@ -43,11 +51,6 @@ const routes = [
   {
     path: '/reg',
     component: () => import('@/views/reg/index.vue')
-  },
-  {
-    path: '/home',
-    // redirect: '/login'
-    component: () => import('@/views/main/index.vue')
   }
 
 ]
