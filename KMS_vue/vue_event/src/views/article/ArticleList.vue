@@ -9,12 +9,12 @@
       <!-- 文章筛选表单 -->
       <el-form :inline="true" ref="screenFrom" :model="seachInfo">
         <el-form-item label="文章分类">
-          <el-select placeholder="请选择分类" v-model="seachInfo.cate_id" size="small">
+          <el-select placeholder="请选择分类" v-model="seachInfo.cate_id">
             <el-option v-for="(item) in cateList" :label="item.cate_name" :value="item.id" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="发布状态">
-          <el-select placeholder="请选择状态" v-model="seachInfo.state" size="small">
+          <el-select placeholder="请选择状态" v-model="seachInfo.state">
             <el-option label="已发布" value="已发布"></el-option>
             <el-option label="草稿" value="草稿"></el-option>
           </el-select>
@@ -27,6 +27,9 @@
       <!-- 文章列表区域 -->
       <el-table :data="articleList" style="width: 100%" border stripe="">
         <el-table-column prop="title" label="文章标题">
+          <template v-slot="scope">
+            <el-link type='primary' @click="toDetail(scope.row.id)"> {{scope.row.title}} </el-link>
+          </template>
         </el-table-column>
         <el-table-column prop="cate_name" label="分类">
         </el-table-column>
@@ -45,7 +48,7 @@
       </el-pagination>
     </el-card>
     <!-- 发表文章弹窗 -->
-    <el-dialog title="发表文章" :visible.sync="dialogVisible" width="80%" @close="dialogClose" :before-close="handleClose" @closed="onDialogClosed">
+    <el-dialog title="发表文章" :visible.sync="dialogVisible" width="80%" :before-close="handleClose" @closed="onDialogClosed">
       <el-form :model="addArtInfo" label-width="100px" :rules="addArtRules" ref="addArtfrom">
         <el-form-item label="文章标题" prop="title">
           <el-input v-model="addArtInfo.title" placeholder="请输入标题"></el-input>
@@ -109,7 +112,8 @@ export default {
       // 控制对话框开关的属性
       dialogVisible: false,
       articleList: [],
-      total: 0
+      total: 0,
+      artDetail: []
     }
   },
   methods: {
@@ -144,8 +148,6 @@ export default {
     PublishArt () {
       this.dialogVisible = true
     },
-    // 对话框关闭时的回调
-    dialogClose () {},
     // 发表文章弹窗关闭前的回调
     async handleClose (done) {
       const closeResult = await this.$confirm('内容还未保存，是否确认退出？', '提示', {
@@ -216,12 +218,19 @@ export default {
       // size: 当前每页要显示条数值
       // 属性绑定了.sync，已经让vue变量实现了双向绑定，可直接发起请求
       this.seachInfo.pagesize = sizes // 以防万一，再写一次
+      // 每页条数由小变大->页码会由大变小，如果此时处于页面较大的页面去切换条数，会导致条数、页码都改变，同时重新发起请求，若页面先响应会导致数据为空
+      // 解决：每次条数发生变化时，都将页码重新设置为第一页，修改完页面再去请求，就不会触发页码改变的回调函数
+      this.seachInfo.pagenum = 1
       this.getArtList()
     },
     // 分页组件页码发生改变时的回调
     handleCurrentChange (nowPage) {
       this.seachInfo.pagenum = nowPage
       this.getArtList()
+    },
+    // 显示文章详情
+    async toDetail (artId) {
+      this.$router.push('art-list/art-detail/' + artId)
     }
   },
   created () {

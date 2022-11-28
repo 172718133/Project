@@ -39,6 +39,11 @@ const routes = [
       {
         path: 'art-list',
         component: () => import('@/views/article/ArticleList.vue')
+      },
+      {
+        path: 'art-list/art-detail/:artId',
+        component: () => import('@/views/article/ArticleDetail.vue'),
+        props: true
       }
     ]
   },
