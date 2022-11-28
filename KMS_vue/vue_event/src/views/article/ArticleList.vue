@@ -1,6 +1,6 @@
 <template>
   <div class="list_container">
-    <!-- 文章列表区域 -->
+    <!-- 文章筛选区域 -->
     <el-card class="box-card">
       <div slot="header" class="header_box">
         <span>文章列表</span>
@@ -9,13 +9,14 @@
       <!-- 文章筛选表单 -->
       <el-form :inline="true" ref="screenFrom" :model="seachInfo">
         <el-form-item label="文章分类">
-          <el-select placeholder="请选择分类" v-model="seachInfo.cate_id">
+          <el-select placeholder="请选择分类" v-model="seachInfo.cate_id" size="small">
             <el-option v-for="(item) in cateList" :label="item.cate_name" :value="item.id" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="发布状态">
-          <el-select placeholder="请选择状态" v-model="seachInfo.state">
-            <el-option v-for="(item) in statusList" :label="item" :value="item.id" :key="item.id"></el-option>
+          <el-select placeholder="请选择状态" v-model="seachInfo.state" size="small">
+            <el-option label="已发布" value="已发布"></el-option>
+            <el-option label="草稿" value="草稿"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -23,6 +24,25 @@
           <el-button type="info" size="small" @click="reset">重置</el-button>
         </el-form-item>
       </el-form>
+      <!-- 文章列表区域 -->
+      <el-table :data="articleList" style="width: 100%" border stripe="">
+        <el-table-column prop="title" label="文章标题">
+        </el-table-column>
+        <el-table-column prop="cate_name" label="分类">
+        </el-table-column>
+        <el-table-column prop="pub_date" label="发表时间">
+          <template v-slot='scope'>
+            <span>{{ $formatDate(scope.row.pub_date) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="state" label="状态">
+        </el-table-column>
+        <el-table-column label="操作">
+        </el-table-column>
+      </el-table>
+      <!-- 分页插件 -->
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="seachInfo.pagenum" :page-sizes="[5, 10, 20, 30]" :page-size="seachInfo.pagesize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      </el-pagination>
     </el-card>
     <!-- 发表文章弹窗 -->
     <el-dialog title="发表文章" :visible.sync="dialogVisible" width="80%" @close="dialogClose" :before-close="handleClose" @closed="onDialogClosed">
@@ -35,10 +55,10 @@
             <el-option v-for="(item) in cateList" :label="item.cate_name" :value="item.id" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item  label="文章内容" prop="content">
+        <el-form-item label="文章内容" prop="content">
           <quill-editor v-model="addArtInfo.content" @blur="contentChange"></quill-editor>
         </el-form-item>
-        <el-form-item  label="文章封面"  prop="cover_img">
+        <el-form-item label="文章封面" prop="cover_img">
           <img class="coverImg" ref="imgRef" src="@/assets/images/cover.jpg" alt="">
           <br>
           <input type="file" accept="image/*" ref="selCover" style="display: none" @change="changeCover">
@@ -54,7 +74,7 @@
 </template>
 
 <script>
-import { getArticleCateAPI, addArtAPI } from '@/api'
+import { getArticleCateAPI, addArtAPI, getArtListAPI } from '@/api'
 import img from '../../assets/images/cover.jpg'
 export default {
   name: 'art-list',
@@ -62,6 +82,8 @@ export default {
     return {
       // 查询文章的表单对象
       seachInfo: {
+        pagenum: 1,
+        pagesize: 5,
         cate_id: '',
         state: ''
       },
@@ -79,32 +101,44 @@ export default {
           { required: true, message: '文章标题不能为空', trigger: 'blur' },
           { min: 1, max: 30, message: '文章标题长度为1-30个字符', trigger: 'blur' }
         ],
-        cate_id: [
-          { required: true, message: '文章分类不能为空', trigger: 'change' }
-        ],
-        content: [
-          { required: true, message: '文章内容不能为空', trigger: 'change' }
-        ],
-        cover_img: [
-          { required: true, message: '文章封面不能为空', trigger: 'change' }
-        ]
+        cate_id: [{ required: true, message: '文章分类不能为空', trigger: 'change' }],
+        content: [{ required: true, message: '文章内容不能为空', trigger: 'blur' }],
+        cover_img: [{ required: true, message: '文章封面不能为空', trigger: 'change' }]
       },
       cateList: [],
-      statusList: ['已发布', '草稿'],
       // 控制对话框开关的属性
-      dialogVisible: false
+      dialogVisible: false,
+      articleList: [],
+      total: 0
     }
   },
   methods: {
-    // 文章列表的筛选按钮
-    screen () {},
-    // 文章列表的重置按钮
-    reset () {
-    },
+    // 获取文章分类列表
     async getArtCatesList () {
       const { data: res } = await getArticleCateAPI()
       if (res.code !== 0) return this.$message.error(res.message)
       this.cateList = res.data
+    },
+    // 获取文章列表
+    async getArtList () {
+      const { data: res } = await getArtListAPI(this.seachInfo)
+      if (res.code !== 0) return this.$message.error(res.message)
+      this.articleList = res.data
+      this.total = res.total
+    },
+    // 文章列表的筛选按钮
+    screen () {
+      this.seachInfo.pagenum = 1
+      this.seachInfo.pagesize = 5
+      this.getArtList()
+    },
+    // 文章列表的重置按钮
+    reset () {
+      this.seachInfo.pagenum = 1
+      this.seachInfo.pagesize = 5
+      this.seachInfo.cate_id = ''
+      this.seachInfo.state = ''
+      this.getArtList()
     },
     // 发表文章按钮点击事件
     PublishArt () {
@@ -133,10 +167,12 @@ export default {
         this.addArtInfo.cover_img = null
         this.$refs.imgRef.setAttribute('src', img)
       } else {
+        console.log(files[0])
         this.addArtInfo.cover_img = files[0]
         const url = URL.createObjectURL(files[0])
         this.$refs.imgRef.setAttribute('src', url)
       }
+      this.$refs.selCover.value = null
     },
     // 发布/草稿的点击事件
     post (str) {
@@ -161,6 +197,7 @@ export default {
           return false
         }
       })
+      this.getArtList()
     },
     // 富文本编辑器的改变事件
     contentChange () {
@@ -168,19 +205,28 @@ export default {
     },
     // 对话框完全关闭之后的处理函数
     onDialogClosed () {
-      this.$nextTick(() => {
-        this.$refs.addArtfrom.clearValidate('content')
-      })
       // 清空关键数据
       this.$refs.addArtfrom.resetFields()
       // 因为这2个变量对应的标签不是表单绑定的, 所以需要单独控制
       this.addArtInfo.content = ''
       this.$refs.imgRef.setAttribute('src', img)
-      console.log(this.addArtInfo)
+    },
+    // 分页组件每页显示的条数发生变化时的回调
+    handleSizeChange (sizes) {
+      // size: 当前每页要显示条数值
+      // 属性绑定了.sync，已经让vue变量实现了双向绑定，可直接发起请求
+      this.seachInfo.pagesize = sizes // 以防万一，再写一次
+      this.getArtList()
+    },
+    // 分页组件页码发生改变时的回调
+    handleCurrentChange (nowPage) {
+      this.seachInfo.pagenum = nowPage
+      this.getArtList()
     }
   },
   created () {
     this.getArtCatesList()
+    this.getArtList()
   }
 }
 </script>
@@ -208,5 +254,9 @@ export default {
   // width: 400px;
   height: 260px;
   object-fit: cover;
+}
+.el-pagination {
+  text-align: right;
+  margin-top: 30px;
 }
 </style>

@@ -181,3 +181,19 @@ export const addArtAPI = (addFrom) => {
     data: addFrom
   })
 }
+/**
+ * 获取文章列表--query(params)
+ * @param {*} param0 { pagenum, pagesize, cate_id, state }
+ * @returns Promise对象
+ */
+export const getArtListAPI = ({ pagenum, pagesize, cate_id, state }) => {
+  return request({
+    url: '/my/article/list',
+    params: {
+      pagenum,
+      pagesize,
+      cate_id,
+      state
+    }
+  })
+}
