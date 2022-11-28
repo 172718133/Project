@@ -36,7 +36,7 @@
           </el-select>
         </el-form-item>
         <el-form-item  label="文章内容" prop="content">
-          <quill-editor v-model="addArtInfo.content" @change="contentChange"></quill-editor>
+          <quill-editor v-model="addArtInfo.content" @blur="contentChange"></quill-editor>
         </el-form-item>
         <el-form-item  label="文章封面"  prop="cover_img">
           <img class="coverImg" ref="imgRef" src="@/assets/images/cover.jpg" alt="">
@@ -141,7 +141,6 @@ export default {
     // 发布/草稿的点击事件
     post (str) {
       this.addArtInfo.state = str
-      console.log(this.addArtInfo)
       this.$refs.addArtfrom.validate(async valid => {
         if (valid) {
           if (!valid) return this.$message.error('请完善文章信息！')
@@ -156,7 +155,8 @@ export default {
           fd.append('state', this.addArtInfo.state)
           const { data: res } = await addArtAPI(fd)
           if (res.code !== 0) return this.$message.error(res.message)
-          console.log(res)
+          this.$message.success(res.message)
+          this.dialogVisible = false
         } else {
           return false
         }
@@ -168,11 +168,15 @@ export default {
     },
     // 对话框完全关闭之后的处理函数
     onDialogClosed () {
+      this.$nextTick(() => {
+        this.$refs.addArtfrom.clearValidate('content')
+      })
       // 清空关键数据
-      this.$refs.addArtInfo.resetFields()
+      this.$refs.addArtfrom.resetFields()
       // 因为这2个变量对应的标签不是表单绑定的, 所以需要单独控制
       this.addArtInfo.content = ''
       this.$refs.imgRef.setAttribute('src', img)
+      console.log(this.addArtInfo)
     }
   },
   created () {
