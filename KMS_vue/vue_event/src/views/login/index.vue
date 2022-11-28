@@ -86,7 +86,7 @@ export default {
   padding: 0;
   height: 100%;
   width: 100%;
-  background: url('@/assets/images/login_bg.jpg') no-repeat center;
+  background: url('@/assets/images/login_bg.4cf70ad5.jpg') no-repeat center;
   background-size: cover;
   box-sizing: border-box;
 }
