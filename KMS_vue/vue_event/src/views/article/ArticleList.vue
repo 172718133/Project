@@ -41,6 +41,9 @@
         <el-table-column prop="state" label="状态">
         </el-table-column>
         <el-table-column label="操作">
+          <template v-slot="scope">
+            <el-button size="mini" type="danger" @click="handleDelete(scope.row.id)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
       <!-- 分页插件 -->
@@ -77,7 +80,7 @@
 </template>
 
 <script>
-import { getArticleCateAPI, addArtAPI, getArtListAPI } from '@/api'
+import { getArticleCateAPI, addArtAPI, getArtListAPI, delArtApi } from '@/api'
 import img from '../../assets/images/cover.jpg'
 export default {
   name: 'art-list',
@@ -231,6 +234,23 @@ export default {
     // 显示文章详情
     async toDetail (artId) {
       this.$router.push('art-list/art-detail/' + artId)
+    },
+    // 删除文章按钮，点击事件
+    handleDelete (artId) {
+      this.$confirm('是否确认删除该文章？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const { data: res } = await delArtApi(artId)
+        if (res.code !== 0) return this.$message.error(res.message)
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+        this.getArtList()
+      }).catch(() => {
+      })
     }
   },
   created () {
