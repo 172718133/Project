@@ -4,6 +4,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
   // 影响打包时的路径
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  // 排除以下文件夹，打包时不打包这些文件夹
   configureWebpack: {
     externals: {
       // 基本格式：
