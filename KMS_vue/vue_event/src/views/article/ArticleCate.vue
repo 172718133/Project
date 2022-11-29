@@ -50,6 +50,7 @@ export default {
       artCateList: [],
       // 控制对话框开关的属性
       dialogVisible: false,
+      // 添加分类对话框标题
       dialogTitle: '添加文章分类',
       // 是否处于修改状态的属性
       isEdit: false,
