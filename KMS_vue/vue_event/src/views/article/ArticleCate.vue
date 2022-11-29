@@ -23,7 +23,7 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <el-dialog title="添加文章分类" :visible.sync="dialogVisible" width="35%" @close="dialogClose">
+    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="35%" @close="dialogClose">
       <el-form ref="addArtCateform" :model="addArtCateForm" :rules="addArtCateRules" label-width="80px">
         <el-form-item label="分类名称" prop="cate_name">
           <el-input autocomplete="off" v-model.trim="addArtCateForm.cate_name"></el-input>
@@ -33,8 +33,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="cancle">取 消</el-button>
-        <el-button type="primary" @click="confirm">确 定</el-button>
+        <el-button @click="cancle" size="small">取 消</el-button>
+        <el-button type="primary" @click="confirm" size="small">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -50,6 +50,7 @@ export default {
       artCateList: [],
       // 控制对话框开关的属性
       dialogVisible: false,
+      dialogTitle: '添加文章分类',
       // 是否处于修改状态的属性
       isEdit: false,
       editId: '',
@@ -85,6 +86,7 @@ export default {
       this.isEdit = false
       this.editId = ''
       this.dialogVisible = true
+      this.dialogTitle = '添加文章分类'
     },
     // 对话框取消按钮点击事件，点击关闭对话框
     cancle () {
@@ -121,6 +123,7 @@ export default {
       this.isEdit = true
       this.editId = row.id
       this.dialogVisible = true
+      this.dialogTitle = '修改文章分类'
       // this.$nextTick() 会等待dom元素创建之后再去走回调
       // Dialog 的内容是懒渲染的，即在第一次被打开之前，传入的默认 slot 不会被渲染到 DOM 上。
       this.$nextTick(() => {
@@ -129,7 +132,7 @@ export default {
         this.addArtCateForm.cate_alias = row.cate_alias
       })
     },
-    // 文章列表删除按钮点击事件
+    // 文章分类列表删除按钮点击事件
     deleteCate (row) {
       this.delId = row.id
       this.$confirm('是否删除该文章分类', '提示', {
