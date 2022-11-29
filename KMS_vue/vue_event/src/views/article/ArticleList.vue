@@ -198,11 +198,11 @@ export default {
           if (res.code !== 0) return this.$message.error(res.message)
           this.$message.success(res.message)
           this.dialogVisible = false
+          this.getArtList()
         } else {
           return false
         }
       })
-      this.getArtList()
     },
     // 富文本编辑器的改变事件
     contentChange () {
