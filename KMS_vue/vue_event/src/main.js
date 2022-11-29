@@ -5,7 +5,7 @@ import store from './store'
 // 引入全局样式
 import '@/assets/global.less'
 // 引入 element-ui 组件库
-import ElementUI from 'element-ui'
+import ELEMENT from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // 引入富文本编辑器
 import VueQuillEditor from 'vue-quill-editor'
@@ -22,7 +22,7 @@ Vue.prototype.$formatDate = (dateObj) => {
 
 Vue.use(VueQuillEditor /* { default global options } */)
 
-Vue.use(ElementUI)
+Vue.use(ELEMENT)
 Vue.config.productionTip = false
 
 new Vue({
