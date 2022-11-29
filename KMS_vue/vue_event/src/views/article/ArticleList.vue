@@ -248,6 +248,13 @@ export default {
           type: 'success',
           message: '删除成功!'
         })
+        // Bug: 当前页面只剩下一条数据，删除该数据后，页码没有改变重新发起请求，导致表格数据为空
+        // 解决：判断当前列表数据是否为空，为空就让pagenum--
+        if (this.articleList.length === 1) {
+          if (this.seachInfo.pagenum > 1) {
+            this.seachInfo.pagenum--
+          }
+        }
         this.getArtList()
       }).catch(() => {
       })
